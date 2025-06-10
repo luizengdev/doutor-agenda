@@ -1,11 +1,21 @@
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { auth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 
 import LoginForm from "./components/login-form";
 import SignUpForm from "./components/sign-up-form";
 
-export default function AuthenticationPage() {
+const AuthenticationPage = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  if (session?.user) {
+    redirect("/dashboard");
+  }
   return (
     <div
       className={cn(
@@ -35,4 +45,6 @@ export default function AuthenticationPage() {
       </Card>
     </div>
   );
-}
+};
+
+export default AuthenticationPage;
