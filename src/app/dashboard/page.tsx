@@ -1,5 +1,6 @@
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import { db } from "@/db";
@@ -30,6 +31,14 @@ const DashboardPage = async () => {
   return (
     <div>
       <h1>Seja bem-vindo {session.user.name}</h1>
+      <Image
+        src={session?.user?.image as string}
+        alt="User"
+        className="rounded-full"
+        width={50}
+        height={50}
+        style={{ objectFit: "cover" }}
+      />
       <SignOutButton />
     </div>
   );
