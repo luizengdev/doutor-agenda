@@ -1,4 +1,5 @@
 "use client";
+import { LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ const SignOutButton = () => {
   const router = useRouter();
   return (
     <Button
+      variant="ghost"
       onClick={() =>
         authClient.signOut({
           fetchOptions: {
@@ -18,6 +20,7 @@ const SignOutButton = () => {
         })
       }
     >
+      <LogOutIcon />
       Sair
     </Button>
   );

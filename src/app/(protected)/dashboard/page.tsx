@@ -7,8 +7,6 @@ import { db } from "@/db";
 import { usersToClinicsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
-import SignOutButton from "./components/sign-out-button";
-
 const DashboardPage = async () => {
   // Verifica se o usuário está logado
   const session = await auth.api.getSession({
@@ -39,7 +37,6 @@ const DashboardPage = async () => {
         height={50}
         style={{ objectFit: "cover" }}
       />
-      <SignOutButton />
     </div>
   );
 };
