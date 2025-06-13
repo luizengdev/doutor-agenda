@@ -1,3 +1,4 @@
+"use client";
 import {
   CalendarDays,
   DiamondIcon,
@@ -8,7 +9,9 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,6 +30,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { authClient } from "@/lib/auth-client";
 
 import SignOutButton from "../dashboard/_components/sign-out-button";
 
@@ -60,6 +64,9 @@ const items = [
 ];
 
 const AppSidebar = () => {
+  const session = authClient.useSession();
+  const pathname = usePathname();
+
   return (
     <Sidebar>
       <SidebarHeader className="border-b p-4">
@@ -72,7 +79,7 @@ const AppSidebar = () => {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild isActive={pathname === item.url}>
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -89,8 +96,18 @@ const AppSidebar = () => {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
-                  Clínicas
+                <SidebarMenuButton size="lg">
+                  <Avatar>
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="text-sm">
+                      {session.data?.user?.clinic?.name}
+                    </p>
+                    <p className="text-muted-foreground text-sm">
+                      {session.data?.user?.email}
+                    </p>
+                  </div>
                   <EllipsisVertical className="ml-auto size-4" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -106,4 +123,5 @@ const AppSidebar = () => {
     </Sidebar>
   );
 };
+
 export default AppSidebar;
