@@ -101,7 +101,7 @@ const AppSidebar = () => {
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="text-sm">
+                    <p className="text-sm font-medium">
                       {session.data?.user?.clinic?.name}
                     </p>
                     <p className="text-muted-foreground text-sm">
