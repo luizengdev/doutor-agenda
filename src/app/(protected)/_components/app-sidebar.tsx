@@ -70,7 +70,13 @@ const AppSidebar = () => {
   return (
     <Sidebar>
       <SidebarHeader className="border-b p-4">
-        <Image src="/logo.svg" alt="Doutor Agenda" width={136} height={28} />
+        <Image
+          src="/logo.svg"
+          alt="Doutor Agenda"
+          width={136}
+          height={28}
+          className="dark:invert"
+        />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
