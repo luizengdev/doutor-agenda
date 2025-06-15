@@ -59,7 +59,6 @@ const formSchema = z
     message: "O horário de início deve ser antes do horário de término.",
     path: ["availableToTime"],
   });
-
 interface UpsertDoctorFormProps {
   doctor?: typeof doctorsTable.$inferSelect;
   onSuccess?: () => void;
