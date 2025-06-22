@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { PatternFormat } from "react-number-format";
 import { toast } from "sonner";
@@ -51,11 +52,16 @@ const formSchema = z.object({
 });
 
 interface UpsertPatientFormProps {
+  isOpen: boolean;
   patient?: typeof patientsTable.$inferSelect;
   onSuccess?: () => void;
 }
 
-const UpsertPatientForm = ({ patient, onSuccess }: UpsertPatientFormProps) => {
+const UpsertPatientForm = ({
+  patient,
+  onSuccess,
+  isOpen,
+}: UpsertPatientFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     shouldUnregister: true,
     resolver: zodResolver(formSchema),
@@ -66,6 +72,12 @@ const UpsertPatientForm = ({ patient, onSuccess }: UpsertPatientFormProps) => {
       sex: patient?.sex ?? undefined,
     },
   });
+
+  useEffect(() => {
+    if (isOpen) {
+      form.reset(patient);
+    }
+  }, [isOpen, form, patient]);
 
   const upsertPatientAction = useAction(upsertPatient, {
     onSuccess: () => {
