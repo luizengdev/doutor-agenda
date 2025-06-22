@@ -69,11 +69,14 @@ const UpsertPatientForm = ({ patient, onSuccess }: UpsertPatientFormProps) => {
 
   const upsertPatientAction = useAction(upsertPatient, {
     onSuccess: () => {
-      toast.success("Paciente salvo com sucesso.");
+      const message = patient
+        ? `Paciente ${patient.name} atualizado com sucesso!`
+        : "Paciente adicionado com sucesso!";
+      toast.success(message);
       onSuccess?.();
     },
     onError: () => {
-      toast.error("Erro ao salvar paciente.");
+      toast.error("Erro ao salvar/atualizar paciente.");
     },
   });
 
