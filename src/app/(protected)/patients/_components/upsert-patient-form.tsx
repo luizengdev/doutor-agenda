@@ -1,7 +1,10 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
+import { PatternFormat } from "react-number-format";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -32,27 +35,27 @@ import {
 } from "@/components/ui/select";
 import { patientsTable } from "@/db/schema";
 
-const formSchema = z
-  .object({
-    name: z.string().trim().min(1, { message: "Nome é obrigatório." }),
-    email: z.string().email("Email inválido"),
-    phoneNumber: z.string().min(1, { message: "Telefone é obrigatório." }),
-    sex: z.enum(["male", "female"]),
-  })
-  .refine((data) => data.phoneNumber.length >= 10, {
-    message: "Telefone inválido",
-    path: ["phone"],
-  });
+const formSchema = z.object({
+  name: z.string().trim().min(1, {
+    message: "Nome é obrigatório.",
+  }),
+  email: z.string().email({
+    message: "Email inválido.",
+  }),
+  phoneNumber: z.string().trim().min(1, {
+    message: "Número de telefone é obrigatório.",
+  }),
+  sex: z.enum(["male", "female"], {
+    required_error: "Sexo é obrigatório.",
+  }),
+});
 
 interface UpsertPatientFormProps {
   patient?: typeof patientsTable.$inferSelect;
   onSuccess?: () => void;
 }
 
-const UpsertPatientForm = ({
-  patient,
-  onSuccess,
-}: UpsertPatientFormProps = {}) => {
+const UpsertPatientForm = ({ patient, onSuccess }: UpsertPatientFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     shouldUnregister: true,
     resolver: zodResolver(formSchema),
@@ -60,20 +63,17 @@ const UpsertPatientForm = ({
       name: patient?.name ?? "",
       email: patient?.email ?? "",
       phoneNumber: patient?.phoneNumber ?? "",
-      sex: patient?.sex ?? "male",
+      sex: patient?.sex ?? undefined,
     },
   });
 
   const upsertPatientAction = useAction(upsertPatient, {
     onSuccess: () => {
-      const message = patient
-        ? `Paciente ${patient.name} atualizado com sucesso!`
-        : "Paciente adicionado com sucesso!";
-      toast.success(message);
+      toast.success("Paciente salvo com sucesso.");
       onSuccess?.();
     },
     onError: () => {
-      toast.error("Erro ao adicionar/atualizar paciente.");
+      toast.error("Erro ao salvar paciente.");
     },
   });
 
@@ -81,9 +81,6 @@ const UpsertPatientForm = ({
     upsertPatientAction.execute({
       ...values,
       id: patient?.id,
-      phoneNumber: values.phoneNumber.replace(/\D/g, ""),
-      sex: values.sex,
-      email: values.email.toLowerCase(),
     });
   };
 
@@ -91,12 +88,12 @@ const UpsertPatientForm = ({
     <DialogContent>
       <DialogHeader>
         <DialogTitle>
-          {patient ? patient.name : "Adicionar Paciente"}
+          {patient ? patient.name : "Adicionar paciente"}
         </DialogTitle>
         <DialogDescription>
           {patient
-            ? "Edite as informações desse paciente"
-            : "Adicione uma novo paciente"}
+            ? "Edite as informações desse paciente."
+            : "Adicione um novo paciente."}
         </DialogDescription>
       </DialogHeader>
       <Form {...form}>
@@ -106,15 +103,17 @@ const UpsertPatientForm = ({
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nome</FormLabel>
+                <FormLabel>Nome do paciente</FormLabel>
                 <FormControl>
-                  <Input placeholder="Digite o nome completo" {...field} />
+                  <Input
+                    placeholder="Digite o nome completo do paciente"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="email"
@@ -123,8 +122,8 @@ const UpsertPatientForm = ({
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="exemplo@email.com"
                     type="email"
+                    placeholder="exemplo@email.com"
                     {...field}
                   />
                 </FormControl>
@@ -132,28 +131,38 @@ const UpsertPatientForm = ({
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="phoneNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Telefone</FormLabel>
+                <FormLabel>Número de telefone</FormLabel>
                 <FormControl>
-                  <Input placeholder="(00) 00000-0000" {...field} />
+                  <PatternFormat
+                    format="(##) #####-####"
+                    mask="_"
+                    placeholder="(11) 99999-9999"
+                    value={field.value}
+                    onValueChange={(value) => {
+                      field.onChange(value.value);
+                    }}
+                    customInput={Input}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="sex"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Sexo</FormLabel>
-                <Select onValueChange={field.onChange}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione o sexo" />
@@ -168,7 +177,6 @@ const UpsertPatientForm = ({
               </FormItem>
             )}
           />
-
           <DialogFooter>
             <Button type="submit" disabled={upsertPatientAction.isPending}>
               {upsertPatientAction.isPending && (
