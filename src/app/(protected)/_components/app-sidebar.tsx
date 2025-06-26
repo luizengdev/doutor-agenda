@@ -4,12 +4,13 @@ import {
   DiamondIcon,
   EllipsisVertical,
   LayoutDashboard,
+  LogOut,
   Stethoscope,
   Users2,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -31,8 +32,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { authClient } from "@/lib/auth-client";
-
-import SignOutButton from "../dashboard/_components/sign-out-button";
 
 // Menu items.
 const items = [
@@ -64,8 +63,19 @@ const items = [
 ];
 
 const AppSidebar = () => {
+  const router = useRouter();
   const session = authClient.useSession();
   const pathname = usePathname();
+
+  const handleSignOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/authentication");
+        },
+      },
+    });
+  };
 
   return (
     <Sidebar>
@@ -118,8 +128,9 @@ const AppSidebar = () => {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem>
-                  <SignOutButton />
+                <DropdownMenuItem onClick={handleSignOut}>
+                  <LogOut />
+                  Sair
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
