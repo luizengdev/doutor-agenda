@@ -15,7 +15,7 @@ import { formatCurrencyInCents } from "@/helpers/currency";
 
 export const description = "An area chart with gradient fill";
 
-interface RevenueChartProps {
+interface AppointmentsChartProps {
   dailyAppointmentsData: {
     date: string;
     appointments: number;
@@ -23,7 +23,9 @@ interface RevenueChartProps {
   }[];
 }
 
-export function RevenueChart({ dailyAppointmentsData }: RevenueChartProps) {
+export function AppointmentsChart({
+  dailyAppointmentsData,
+}: AppointmentsChartProps) {
   // Gerar 21 dias: 10 antes + hoje + 10 depois
   const chartDays = Array.from({ length: 21 }).map((_item, index) =>
     dayjs()
