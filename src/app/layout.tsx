@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 
 import { Toaster } from "@/components/ui/sonner";
+import { ReactQueryProvider } from "@/providers/react-query";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -23,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${manrope.variable} antialiased`}>
-        {children}
+        <ReactQueryProvider>{children}</ReactQueryProvider>
         <Toaster position="bottom-center" richColors theme="light" />
       </body>
     </html>
