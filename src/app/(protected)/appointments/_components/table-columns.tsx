@@ -69,7 +69,6 @@ export const appointmentsTableColumns: ColumnDef<AppointmentWithRelations>[] = [
   },
   {
     id: "actions",
-    header: "Ações",
     cell: (params) => {
       const appointment = params.row.original;
       return <AppointmentsTableAction appointment={appointment} />;
