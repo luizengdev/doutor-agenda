@@ -1,8 +1,8 @@
 "use client";
 import {
   CalendarDays,
-  DiamondIcon,
   EllipsisVertical,
+  Gem,
   LayoutDashboard,
   LogOut,
   Stethoscope,
@@ -55,11 +55,6 @@ const items = [
     url: "/patients",
     icon: Users2,
   },
-  {
-    title: "Planos",
-    url: "/plans",
-    icon: DiamondIcon,
-  },
 ];
 
 const AppSidebar = () => {
@@ -103,6 +98,24 @@ const AppSidebar = () => {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Outros</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/subscription"}
+                >
+                  <Link href="/subscription">
+                    <Gem />
+                    <span>Assinatura</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
