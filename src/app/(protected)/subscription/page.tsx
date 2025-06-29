@@ -1,5 +1,4 @@
 import {
-  PageActions,
   PageContainer,
   PageContent,
   PageDescription,
@@ -18,10 +17,9 @@ const SubscriptionPage = () => {
           <PageTitle>Assinatura</PageTitle>
           <PageDescription>Gerencie a sua assinatura.</PageDescription>
         </PageHeaderContent>
-        <PageActions></PageActions>
       </PageHeader>
       <PageContent>
-        <SubscriptionPlan active className="w-[350px]" />
+        <SubscriptionPlan className="w-[350px]" />
       </PageContent>
     </PageContainer>
   );

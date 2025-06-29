@@ -1,5 +1,10 @@
-import { CheckCircle } from "lucide-react";
+"use client";
 
+import { loadStripe } from "@stripe/stripe-js";
+import { CheckCircle, Loader2 } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+
+import { createStripeCheckout } from "@/actions/create-stripe-checkout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -13,6 +18,25 @@ export default function SubscriptionPlan({
   active = false,
   className,
 }: SubscriptionPlanProps) {
+  const createStripeCheckoutAction = useAction(createStripeCheckout, {
+    onSuccess: async ({ data }) => {
+      if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+        throw new Error("Stripe publishable key not found");
+      }
+      const stripe = await loadStripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+      );
+      if (!stripe) {
+        throw new Error("Stripe not found");
+      }
+      if (!data?.sessionId) {
+        throw new Error("Stripe session id not found");
+      }
+      await stripe.redirectToCheckout({
+        sessionId: data?.sessionId,
+      });
+    },
+  });
   const features = [
     "Cadastro de até 3 médicos",
     "Agendamentos ilimitados",
@@ -21,6 +45,10 @@ export default function SubscriptionPlan({
     "Confirmação manual",
     "Suporte via e-mail",
   ];
+
+  const handleSubscribeClick = () => {
+    createStripeCheckoutAction.execute();
+  };
 
   return (
     <Card className={className}>
@@ -40,7 +68,7 @@ export default function SubscriptionPlan({
           Para profissionais autônomos ou pequenas clínicas
         </p>
         <div className="flex items-baseline">
-          <span className="text-3xl font-bold text-gray-900">R$59</span>
+          <span className="text-3xl font-bold text-gray-900">R$59,90</span>
           <span className="ml-1 text-gray-600">/mês</span>
         </div>
       </CardHeader>
@@ -58,8 +86,19 @@ export default function SubscriptionPlan({
         </div>
 
         <div className="mt-8">
-          <Button className="w-full" variant={active ? "outline" : "default"}>
-            {active ? "Gerenciar assinatura" : "Fazer assinatura"}
+          <Button
+            className="w-full"
+            variant={active ? "outline" : "default"}
+            onClick={active ? () => {} : handleSubscribeClick}
+            disabled={createStripeCheckoutAction.isExecuting}
+          >
+            {createStripeCheckoutAction.isExecuting ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : active ? (
+              "Gerenciar assinatura"
+            ) : (
+              "Fazer assinatura"
+            )}
           </Button>
         </div>
       </CardContent>
