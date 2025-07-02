@@ -1,5 +1,7 @@
 "use client";
 
+import "dayjs/locale/pt-br";
+
 import dayjs from "dayjs";
 import { DollarSign } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
@@ -12,6 +14,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { formatCurrencyInCents } from "@/helpers/currency";
+
+dayjs.locale("pt-br");
 
 export const description = "An area chart with gradient fill";
 
@@ -116,9 +120,9 @@ export function AppointmentsChart({
                   }}
                   labelFormatter={(label, payload) => {
                     if (payload && payload[0]) {
-                      return dayjs(payload[0].payload?.fullDate).format(
-                        "DD/MM/YYYY (dddd)",
-                      );
+                      return dayjs(
+                        payload[0].payload?.fullDate as string,
+                      ).format("DD/MM/YYYY (dddd)");
                     }
                     return label;
                   }}
