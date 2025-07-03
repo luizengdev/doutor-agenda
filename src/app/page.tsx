@@ -1,11 +1,5 @@
-import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
 
-const Home = () => {
-  return (
-    <div>
-      <Button className="m-2 rounded">Teste</Button>
-    </div>
-  );
-};
-
-export default Home;
+export default function Home() {
+  redirect("/dashboard");
+}
