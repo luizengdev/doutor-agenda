@@ -4,21 +4,19 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { eq } from "drizzle-orm";
-import { headers } from "next/headers";
 import { z } from "zod";
 
 import { db } from "@/db";
 import { appointmentsTable, doctorsTable } from "@/db/schema";
 import { generateTimeSlots } from "@/helpers/time";
-import { auth } from "@/lib/auth";
-import { actionClient } from "@/lib/next-safe-action";
+import { protectedWithClinicActionClient } from "@/lib/next-safe-action";
 
 // Habilita plugins do dayjs
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 // Cria action que retorna horarios disponiveis de um medico em uma data especifica
-export const getAvailableTimes = actionClient
+export const getAvailableTimes = protectedWithClinicActionClient
   .inputSchema(
     z.object({
       doctorId: z.string(),
@@ -26,15 +24,6 @@ export const getAvailableTimes = actionClient
     }),
   )
   .action(async ({ parsedInput }) => {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-    if (!session) {
-      throw new Error("Unauthorized");
-    }
-    if (!session.user.clinic) {
-      throw new Error("Clínica não encontrada");
-    }
     const doctor = await db.query.doctorsTable.findFirst({
       where: eq(doctorsTable.id, parsedInput.doctorId),
     });
