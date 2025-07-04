@@ -8,6 +8,7 @@ import {
   Stethoscope,
   Users2,
 } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -32,6 +33,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { authClient } from "@/lib/auth-client";
+import { useTheme } from "@/providers/theme-provider";
 
 // Menu items.
 const items = [
@@ -61,6 +63,7 @@ const AppSidebar = () => {
   const router = useRouter();
   const session = authClient.useSession();
   const pathname = usePathname();
+  const { theme, toggleTheme } = useTheme();
 
   const handleSignOut = async () => {
     await authClient.signOut({
@@ -141,6 +144,14 @@ const AppSidebar = () => {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
+                <DropdownMenuItem onClick={toggleTheme}>
+                  {theme === "dark" ? (
+                    <Sun className="mr-2" />
+                  ) : (
+                    <Moon className="mr-2" />
+                  )}
+                  {theme === "dark" ? "Tema Claro" : "Tema Escuro"}
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleSignOut}>
                   <LogOut />
                   Sair
