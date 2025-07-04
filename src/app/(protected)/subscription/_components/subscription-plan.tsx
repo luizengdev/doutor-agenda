@@ -64,7 +64,7 @@ export function SubscriptionPlan({
     <Card className={className}>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <h3 className="text-2xl font-bold text-gray-900">Essential</h3>
+          <h3 className="text-2xl font-bold">Essential</h3>
           {active && (
             <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
               Atual
@@ -75,7 +75,7 @@ export function SubscriptionPlan({
           Para profissionais autônomos ou pequenas clínicas
         </p>
         <div className="flex items-baseline">
-          <span className="text-3xl font-bold text-gray-900">R$59</span>
+          <span className="text-3xl font-bold">R$59</span>
           <span className="ml-1 text-gray-600">/ mês</span>
         </div>
       </CardHeader>
