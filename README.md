@@ -31,8 +31,8 @@ https://doutor-agenda-mocha.vercel.app/
 ## 📸 Screenshots
 
 <p align="center">
-<img width="1478" height="903" alt="Image" src="https://github.com/user-attachments/assets/f7d89e61-e34f-4bec-83b6-98beaed898f7" />
-  <img width="1489" height="903" alt="Image" src="https://github.com/user-attachments/assets/b281aab5-8525-4a9d-9b9f-15f0af34e540" />
+<img alt="Image" src="https://github.com/user-attachments/assets/f7d89e61-e34f-4bec-83b6-98beaed898f7" style="max-width: 100%; height: auto;" />
+<img alt="Image" src="https://github.com/user-attachments/assets/b281aab5-8525-4a9d-9b9f-15f0af34e540" style="max-width: 100%; height: auto;" />
 </p>
 
 ## 🧑‍💻 Como rodar localmente
