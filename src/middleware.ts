@@ -17,6 +17,6 @@ export const config = {
     "/patients",
     "/doctors",
     "/subscription",
-    "/((?!api|_next/static|_next/image|authentication|.*\\.png$).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|authentication|.*\\.png$).*)",
   ],
 };
