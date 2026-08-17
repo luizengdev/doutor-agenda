@@ -8,7 +8,7 @@ Este documento define a estratégia e o mapeamento de testes de ponta a ponta (E
 | :--- | :--- |
 | **Sistema testado** | Doutor Agenda |
 | **Módulo** | Agendamento de Consultas Médicas |
-| **Responsável** | Seu Nome |
+| **Responsável** | Luiz Almeida Alves Filho |
 | **Data** | 17/08/2026 |
 | **Versão do documento** | 1.0 |
 
