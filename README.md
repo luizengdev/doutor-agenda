@@ -48,8 +48,8 @@ npm install
 # Configure as variáveis de ambiente (exemplo em .env.example)
 cp .env.example .env
 
-# Rode as migrations do banco
-npm run db:migrate
+# Rode para sincronizar o banco de dados
+npx drizzle-kit push
 
 # Inicie o projeto
 npm run dev
