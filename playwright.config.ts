@@ -26,7 +26,7 @@ export default defineConfig({
     // 1. Projeto de Login: Procura estritamente por arquivos com '.setup.ts'
     {
       name: 'setup',
-      testMatch: '**/*.setup.ts',
+      testMatch: 'e2e/setup/auth.setup.ts',
     },
     
     // 2. Projeto de Testes E2E: Roda os arquivos normais '.spec.ts' usando a sessão salva
