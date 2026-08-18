@@ -13,16 +13,13 @@ import {
 } from "@/components/ui/page-container";
 import { db } from "@/db";
 import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
-import WithAuthentication from "@/hocs/with-authentication";
-import { auth } from "@/lib/auth";
+import { validateAuthentication } from "@/hocs/with-authentication";
 
 import AddAppointmentButton from "./_components/add-appointment-button";
 import { appointmentsTableColumns } from "./_components/table-columns";
 
 const AppointmentsPage = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await validateAuthentication({ mustHavePlan: true, mustHaveClinic: true });
 
   const [patients, doctors, appointments] = await Promise.all([
     db.query.patientsTable.findMany({
@@ -41,24 +38,22 @@ const AppointmentsPage = async () => {
   ]);
 
   return (
-    <WithAuthentication mustHavePlan mustHaveClinic>
-      <PageContainer>
-        <PageHeader>
-          <PageHeaderContent>
-            <PageTitle>Agendamentos</PageTitle>
-            <PageDescription>
-              Gerencie os agendamentos da sua clínica.
-            </PageDescription>
-          </PageHeaderContent>
-          <PageActions>
-            <AddAppointmentButton patients={patients} doctors={doctors} />
-          </PageActions>
-        </PageHeader>
-        <PageContent>
-          <DataTable data={appointments} columns={appointmentsTableColumns} />
-        </PageContent>
-      </PageContainer>
-    </WithAuthentication>
+    <PageContainer>
+      <PageHeader>
+        <PageHeaderContent>
+          <PageTitle>Agendamentos</PageTitle>
+          <PageDescription>
+            Gerencie os agendamentos da sua clínica.
+          </PageDescription>
+        </PageHeaderContent>
+        <PageActions>
+          <AddAppointmentButton patients={patients} doctors={doctors} />
+        </PageActions>
+      </PageHeader>
+      <PageContent>
+        <DataTable data={appointments} columns={appointmentsTableColumns} />
+      </PageContent>
+    </PageContainer>
   );
 };
 
