@@ -23,11 +23,22 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    // 1. Projeto de Login: Procura estritamente por arquivos com '.setup.ts'
+    {
+      name: 'setup',
+      testMatch: '**/*.setup.ts',
+    },
+    
+    // 2. Projeto de Testes E2E: Roda os arquivos normais '.spec.ts' usando a sessão salva
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      testMatch: '**/*.spec.ts', // <-- Força a buscar apenas os arquivos de teste
+      use: { 
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
+      },
+      dependencies: ['setup'], // Só roda após o setup terminar
     },
-
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },

@@ -9,14 +9,14 @@ Este documento define a estratégia e o mapeamento de testes de ponta a ponta (E
 | **Sistema testado** | Doutor Agenda |
 | **Módulo** | Agendamento de Consultas Médicas |
 | **Responsável** | Luiz Almeida Alves Filho |
-| **Data** | 17/08/2026 |
+| **Data** | 18/08/2026 |
 | **Versão do documento** | 1.0 |
 
 ## 2. OBJETIVO DO TESTE
 
 | CAMPO | CONTEÚDO |
 | :--- | :--- |
-| **Objetivo** | Validar o fluxo completo de agendamento de consultas, garantindo que usuários autenticados consigam selecionar médicos, pacientes e horários dinâmicos da mesma clínica (`clinicId`), respeitando as regras de concorrência de agenda, persistência do Drizzle ORM e validações de formulário. |
+| **Objetivo** | Validar o fluxo completo de agendamento de consultas, garantindo que usuários autenticados consigam selecionar médicos, pacientes e horários dinâmicos da mesma clínica (`clinicId`), respeitando as regras de concorrência de agenda, persistência do banco de dados e validações de formulário. |
 
 ## 3. ESCOPO — O QUE SERÁ TESTADO
 
@@ -26,8 +26,8 @@ Este documento define a estratégia e o mapeamento de testes de ponta a ponta (E
 | **3.2** | Atualização dinâmica da lista de horários após um horário específico ser ocupado (Concorrência/Bloqueio). |
 | **3.3** | Bloqueio de datas e horários que estejam fora da escala configurada na agenda do profissional. |
 | **3.4** | Validação de campos obrigatórios do formulário impedindo o disparo da Server Action. |
-| **3.5** | Persistência do valor correto da consulta (`appointmentPriceInCents`) no momento da gravação. |
-| **3.6** | Revalidação instantânea da página (`revalidatePath`) para exibição imediata do novo agendamento na listagem. |
+| **3.5** | Persistência do valor correto da consulta no momento da gravação. |
+| **3.6** | Revalidação instantânea da página para exibição imediata do novo agendamento na listagem. |
 
 ## 4. FORA DO ESCOPO — O QUE NÃO SERÁ TESTADO
 
@@ -36,7 +36,7 @@ Este documento define a estratégia e o mapeamento de testes de ponta a ponta (E
 | **4.1** | Criação e edição do cadastro inicial de clínicas (Multi-tenancy onboarding). |
 | **4.2** | Configuração ou alteração de escala/esquema de horários no perfil do médico. |
 | **4.3** | Fluxo completo de autenticação e gerenciamento de permissões de sessão (Auth assume-se ativa). |
-| **4.4** | Testes de carga e estresse nas Server Actions ou limites de conexão concorrente no banco de dados. |
+| **4.4** | Testes de carga e estresse nas Server Actions(API) ou limites de conexão concorrente no banco de dados. |
 
 ## 5. AMBIENTE DE TESTE
 
