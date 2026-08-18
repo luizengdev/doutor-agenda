@@ -2,7 +2,7 @@
 
 Doutor Agenda é um SaaS moderno e robusto para gestão de clínicas, médicos, pacientes e agendamentos, desenvolvido com as melhores práticas do ecossistema React/Next.js. O projeto foi desenhado para ser escalável, seguro, intuitivo e conta com uma arquitetura sólida de **Testes de Ponta a Ponta (E2E)** para garantir estabilidade contínua em produção.
 
-https://vercel.app
+https://doutor-agenda-mocha.vercel.app/
 
 ## 🚀 Tecnologias Utilizadas
 
